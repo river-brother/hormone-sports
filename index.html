@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/clear.css"/>
+		<link rel="stylesheet" type="text/css" href="css/Apply.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/fit.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/city.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="apply">
+			<div class="login">
+				<div class="zu-1">
+					<img src="img/场馆@3x.png"/>
+					<div class="boxes-1 change">
+						<input type="text" id="name" placeholder="xxx球馆" name="name"/>
+					</div>	
+				</div>
+				
+				<div class="zu-2">
+					<img src="img/个人@3x.png"/>
+					<div class="boxes-2 change">
+						<input type="text" id="names" placeholder="请输入联系人姓名" name="user"/>
+					</div>
+				</div>
+				
+				<div class="zu-3">
+					<img src="img/电话@3x.png"/>
+					<div class="boxes-3 change">
+						<input type="text" id="phone" placeholder="请输入联系电话" name="mobile"/>
+					</div>
+				</div>
+				
+				<div class="zu-4">
+					<img src="img/10-详细地址@3x.png"/>
+					<input type="text" class="select-value3" placeholder="城市选择" name="province">
+				</div>
+				
+				<div class="boxes-4 change">
+					<input type="text" id="site" placeholder="请输入详细地址" name="address"/>
+				</div>
+				
+				<input type="submit" id="btn" value="提交申请" onclick="checkForm()"/>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	<script language="javascript">
+		window.onload = function(){
+			$("#name").focus();
+		};
+	                    
+		$("input").focus(function(){
+		    $(this).addClass("a")
+		});
+		
+		 $("input").blur(function(){  
+            $(this).removeClass("a");  
+        });  
+		
+		function checkForm(){
+			var formData={};
+			formData.name= $("#name").val();
+			formData.user= $("#names").val();
+			formData.province= $("#phone").val();
+			formData.mobile= $(".select-value3").val();
+			formData.address= $("#site").val();
+			
+			if($("#name").val()==""){ 
+	             alert("请填写场馆!");
+	             return false;
+      		};
+
+			if($("#names").val()==""){ 
+	             alert("请填写姓名!");
+	             return false;
+			};
+			if($("#phone").val()==""){ 
+	             alert("请填写电话!");
+	             return false;
+      		};
+			var str = $("#phone").val();      
+          	var reg=/^1[34578]\d{9}$/; 
+        	if(!reg.test(str)){         	
+            	alert("手机号不正确!");       
+       			return false;
+      		};
+			if($(".select-value3").val()==""){ 
+	             alert("请选择城市!");
+	             return false;
+      		};
+			if($("#site").val()==""){ 
+	             alert("请填写地址!");
+	             return false;
+      		};  
+
+			$.ajax({
+	            type: "POST",
+	            url: "http://120.77.43.178:8088/api/join/us",
+	            data: formData,
+	            dataType: "json",
+	            success: function(data){
+					console.log(data);
+					console.log(formData);
+					if(data.status_code == 200){
+						window.location.href="Succeed.html";
+					}	
+ 				}, 
+				error : function(data){
+					alert("提交失败");
+				}
+			});
+		
+			
+    	}
+		
+	</script>
+</html>
